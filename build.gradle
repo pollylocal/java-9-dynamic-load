@@ -1,0 +1,17 @@
+apply plugin: 'java'
+jar.baseName = 'application'
+
+dependencies {
+    compile project(':api')
+}
+
+def apiModulePath = "${project(':api').buildDir}/libs"
+
+compileJava.options.compilerArgs.addAll(['--module-path', apiModulePath])
+
+task run(type: Exec) {
+    dependsOn ':module1:jar', ':module2:jar', ':jar'
+    commandLine 'java', '--module-path', "$buildDir/libs" + File.pathSeparator + "$apiModulePath", '-m', 'com.app/com.app.Application',
+            'module1/build/libs/',
+            'module2/build/libs/'
+}

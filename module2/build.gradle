@@ -1,0 +1,10 @@
+apply plugin: 'java'
+jar.baseName = 'service.module'
+
+dependencies {
+    compile project(':api')
+}
+
+def apiModulePath = "${project(':api').buildDir}/libs"
+
+compileJava.options.compilerArgs.addAll(['--module-path', apiModulePath])
